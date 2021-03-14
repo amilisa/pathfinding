@@ -5,31 +5,43 @@ from Cell import Cell
 from path_finding_algorithm import breadth_first_search as bfs
 
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 600, 650
 FPS = 60
 GREY = (51, 51, 51)
 WHITE = (255, 255, 255)
 BLUE = (30, 144, 255)
 GREEN = (0, 250, 154)
+RED = (255, 65, 84)
 ROWS_NUMBER, COLUMNS_NUMBER = 28, 28
-CELL_WIDTH, CELL_HEIGHT = 560 / ROWS_NUMBER, 560 / ROWS_NUMBER
+MIN_INDEX = 0
+MAX_INDEX = 27
+GRID_SIZE = 560
+CELL_WIDTH, CELL_HEIGHT = GRID_SIZE / ROWS_NUMBER, GRID_SIZE / ROWS_NUMBER
+SUB_ORIGIN = 20
 
 grid = [[Cell(i, j) for i in range(COLUMNS_NUMBER)] for j in range(ROWS_NUMBER)]
-start_point = grid[0][0]
-end_point = grid[27][27]
+start_point = grid[MIN_INDEX][MIN_INDEX]
+end_point = grid[MAX_INDEX][MAX_INDEX]
 
 
-def draw_grid(surface, array, color, width, height):
-    pygame.draw.rect(surface, color, (0, 0, width, height), width=40)
+def draw_grid(surface, array, color):
     for i in range(0, ROWS_NUMBER):
         for j in range(0, COLUMNS_NUMBER):
             array[i][j].draw_cell(surface, CELL_WIDTH, color, 1)
     pygame.display.update()
 
 
+def is_index_valid(row, column, min_index, max_index):
+    if row < min_index or row > max_index:
+        return False
+    if column < min_index or column > max_index:
+        return False
+    return True
+
+
 def transform_to_index(y, x, cell_width):
-    i = int(y // cell_width) - 1
-    j = int(x // cell_width) - 1
+    i = int(y // cell_width)
+    j = int(x // cell_width)
     return i, j
 
 
@@ -73,12 +85,15 @@ window.mainloop()
 def main():
     pygame.init()
     WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-    WINDOW.fill(WHITE)
+    WINDOW.fill(GREY)
     pygame.display.set_caption("Path Finding")
     clock = pygame.time.Clock()
-    draw_grid(WINDOW, grid, GREY, WIDTH, HEIGHT)
-    start_point.draw_cell(WINDOW, CELL_WIDTH, (0, 0, 0))
-    end_point.draw_cell(WINDOW, CELL_WIDTH, (14, 67, 90))
+    subsurface_rect = pygame.Rect(SUB_ORIGIN, SUB_ORIGIN, GRID_SIZE, GRID_SIZE)
+    grid_wrapper = WINDOW.subsurface(subsurface_rect)
+    grid_wrapper.fill(WHITE)
+    draw_grid(grid_wrapper, grid, GREY)
+    start_point.draw_cell(grid_wrapper, CELL_WIDTH, GREEN)
+    end_point.draw_cell(grid_wrapper, CELL_WIDTH, RED)
     pygame.display.update()
 
     running = True
@@ -92,11 +107,12 @@ def main():
             is_left_mouse_button_down = pygame.mouse.get_pressed()[0]
             if is_left_mouse_button_down:
                 x, y = pygame.mouse.get_pos()
-                i, j = transform_to_index(y, x, CELL_WIDTH)
-                grid[i][j].draw_cell(WINDOW, CELL_WIDTH, BLUE)
-                pygame.display.update()
-                grid[i][j].change_value()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                i, j = transform_to_index(y - SUB_ORIGIN, x - SUB_ORIGIN, CELL_WIDTH)
+                if is_index_valid(i, j, MIN_INDEX, MAX_INDEX):
+                    grid[i][j].draw_cell(grid_wrapper, CELL_WIDTH, BLUE)
+                    pygame.display.update()
+                    grid[i][j].change_value()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                 running = False
                 break
 
@@ -109,7 +125,7 @@ def main():
         print("There is no path")
     else:
         for cell in path:
-            cell.draw_cell(WINDOW, CELL_WIDTH, GREEN)
+            cell.draw_cell(grid_wrapper, CELL_WIDTH, GREEN)
             pygame.time.delay(50)
             pygame.display.update()
 

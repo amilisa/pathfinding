@@ -11,7 +11,7 @@ class Cell:
         self.neighbors = []
 
     def draw_cell(self, surface, cell_width, color, line_width=0):
-        cell = pygame.Rect(cell_width * (self.column_ind + 1), cell_width * (self.row_ind + 1), cell_width, cell_width)
+        cell = pygame.Rect(cell_width * self.column_ind, cell_width * self.row_ind, cell_width, cell_width)
         pygame.draw.rect(surface, color, cell, width=line_width)
 
     def change_value(self):
