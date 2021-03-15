@@ -52,6 +52,8 @@ def submit():
     end_row, end_column = [int(item) for item in entry_end_point.get().split(',')]
     start_point = grid[start_row][start_column]
     end_point = grid[end_row][end_column]
+    grid[start_row][start_column].is_path_point = True
+    grid[end_row][end_column].is_path_point = True
     window.destroy()
 
 
@@ -108,7 +110,7 @@ def main():
             if is_left_mouse_button_down:
                 x, y = pygame.mouse.get_pos()
                 i, j = transform_to_index(y - SUB_ORIGIN, x - SUB_ORIGIN, CELL_WIDTH)
-                if is_index_valid(i, j, MIN_INDEX, MAX_INDEX):
+                if is_index_valid(i, j, MIN_INDEX, MAX_INDEX) and not grid[i][j].is_path_point:
                     grid[i][j].draw_cell(grid_wrapper, CELL_WIDTH, BLUE)
                     pygame.display.update()
                     grid[i][j].change_value()

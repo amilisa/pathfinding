@@ -6,9 +6,10 @@ class Cell:
         self.column_ind = x
         self.row_ind = y
         self.value = 1
-        self.observed = False
+        self.is_observed = False
         self.previous = None
         self.neighbors = []
+        self.is_path_point = False
 
     def draw_cell(self, surface, cell_width, color, line_width=0):
         cell = pygame.Rect(cell_width * self.column_ind, cell_width * self.row_ind, cell_width, cell_width)
