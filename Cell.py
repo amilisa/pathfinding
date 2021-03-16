@@ -19,25 +19,20 @@ class Cell:
         self.value = 0
 
     def add_neighbors(self, grid):
-        i = self.row_ind
-        j = self.column_ind
-        rows_number = len(grid) - 1
-        columns_number = len(grid[0]) - 1
-        if i > 0 and grid[i - 1][j].value:
-            self.neighbors.append(grid[i - 1][j])
-        if i < rows_number and grid[i + 1][j].value:
-            self.neighbors.append(grid[i + 1][j])
-        if j < columns_number and grid[i][j + 1].value:
-            self.neighbors.append(grid[i][j + 1])
-        if j > 0 and grid[i][j - 1].value:
-            self.neighbors.append(grid[i][j - 1])
-        if i > 0 and j < columns_number and grid[i - 1][j + 1].value:
-            self.neighbors.append(grid[i - 1][j + 1])
-        if i > 0 and j > 0 and grid[i - 1][j - 1].value:
-            self.neighbors.append(grid[i - 1][j - 1])
-        if i < rows_number and j < columns_number and grid[i + 1][j + 1].value:
-            self.neighbors.append(grid[i + 1][j + 1])
-        if i < rows_number and j > 0 and grid[i + 1][j - 1].value:
-            self.neighbors.append(grid[i + 1][j - 1])
+        rows_number = len(grid)
+        columns_number = len(grid[0])
+        direction_vector_row = [-1, 1, 0, 0, -1, -1, 1, 1]
+        direction_vector_column = [0, 0, 1, -1, -1, 1, 1, -1]
+        for i in range(8):
+            row = self.row_ind + direction_vector_row[i]
+            column = self.column_ind + direction_vector_column[i]
+            if row < 0 or column < 0:
+                continue
+            if row >= rows_number or column >= columns_number:
+                continue
+            if grid[row][column].value:
+                self.neighbors.append(grid[row][column])
+
+
 
 
