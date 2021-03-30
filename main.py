@@ -42,7 +42,7 @@ def main():
         mouse_buttons_pressed = pygame.mouse.get_pressed()
         if mouse_buttons_pressed[0]:
             x, y = pygame.mouse.get_pos()
-            drawing_tools.draw_obstacle(x, y, grid_wrapper, grid, CELL_SIZE, MIN_INDEX, MAX_INDEX, BLUE)
+            drawing_tools.draw_obstacle(x, y, grid_wrapper, grid, SUB_ORIGIN, CELL_SIZE, MIN_INDEX, MAX_INDEX, BLUE)
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_f]:
@@ -51,9 +51,12 @@ def main():
     path = bfs(start_point, end_point, grid, grid_wrapper)
     if path:
         drawing_tools.draw_path(path, grid_wrapper, end_point, CELL_SIZE, GREEN)
-        answer = window_tools.show_message("")
+        path_length = len(path) - 1
+        message = f"The shortest path has been found!\nThe path length is {path_length} blocks."
+        answer = window_tools.show_message(message)
     else:
-        answer = window_tools.show_message("There is no path between the points.")
+        message = "There is no path between the points."
+        answer = window_tools.show_message(message)
 
     if answer:
         main()
