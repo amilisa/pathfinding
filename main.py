@@ -51,12 +51,11 @@ def main():
     path = bfs(start_point, end_point, grid, grid_wrapper)
     if path:
         drawing_tools.draw_path(path, grid_wrapper, end_point, CELL_SIZE, GREEN)
-        path_length = len(path) - 1
+        path_length = len(path)
         message = f"The shortest path has been found!\nThe path length is {path_length} blocks."
-        answer = window_tools.show_message(message)
     else:
         message = "There is no path between the points."
-        answer = window_tools.show_message(message)
+    answer = window_tools.show_message(message)
 
     if answer:
         main()
