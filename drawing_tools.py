@@ -30,7 +30,7 @@ def draw_obstacle(x, y, surface, grid, padding, cell_size, min_index, max_index,
     if misc.is_index_valid(i, j, min_index, max_index) and not grid[i][j].is_path_point:
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
-        grid[i][j].change_value()
+        grid[i][j].change_status()
 
 
 def draw_path(path, surface, goal, cell_size, color):
