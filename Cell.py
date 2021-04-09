@@ -1,24 +1,27 @@
 import pygame
+import math
 
 
 class Cell:
     def __init__(self, x, y):
         self.column_ind = x
         self.row_ind = y
-        self.value = 1
-        self.is_observed = False
+        self.is_active = True
+        self.is_path_point = False
+        self.is_visited = False
         self.previous = None
         self.neighbors = []
-        self.is_path_point = False
+        self.cost = 1
+        self.distance = math.inf
 
     def draw_cell(self, surface, cell_width, color, line_width=0):
         cell = pygame.Rect(cell_width * self.column_ind, cell_width * self.row_ind, cell_width, cell_width)
         pygame.draw.rect(surface, color, cell, width=line_width)
 
-    def change_value(self):
-        self.value = 0
+    def change_status(self):
+        self.is_active = False
 
-    def add_neighbors(self, grid):
+    def add_unvisited_neighbors(self, grid):
         rows_number = len(grid)
         columns_number = len(grid[0])
         direction_vector_row = [-1, 1, 0, 0, -1, -1, 1, 1]
@@ -30,9 +33,7 @@ class Cell:
                 continue
             if row >= rows_number or column >= columns_number:
                 continue
-            if grid[row][column].value:
+            if grid[row][column].is_visited:
+                continue
+            if grid[row][column].is_active:
                 self.neighbors.append(grid[row][column])
-
-
-
-
