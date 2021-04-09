@@ -3,15 +3,20 @@ import sys
 import window_tools
 import drawing_tools
 import misc
+import path_finding_algorithm
 
 from constants.colors import *
 from constants.sizes import *
 from Cell import Cell
 from EntryWindow import EntryWindow
-from path_finding_algorithm import breadth_first_search as bfs
 
 
 FPS = 60
+
+algorithms = {
+    "Breadth-first Search": path_finding_algorithm.breadth_first_search,
+    "Dijkstra's Algorithm": path_finding_algorithm.dijkstra
+}
 
 
 def main():
@@ -29,6 +34,7 @@ def main():
     start_point, end_point = misc.init_path_points(grid, start_row, start_column, end_row, end_column)
     start_point.draw_cell(grid_wrapper, CELL_SIZE, GREEN)
     end_point.draw_cell(grid_wrapper, CELL_SIZE, RED)
+    selected_algorithm = entry_window.selected_algorithm
     pygame.display.update()
 
     running = True
@@ -48,7 +54,8 @@ def main():
         if keys_pressed[pygame.K_f]:
             running = False
 
-    path = bfs(start_point, end_point, grid, grid_wrapper)
+    algorithm = algorithms[selected_algorithm]
+    path = algorithm(start_point, end_point, grid, grid_wrapper)
     if path:
         drawing_tools.draw_path(path, grid_wrapper, end_point, CELL_SIZE, GREEN)
         path_length = len(path)
