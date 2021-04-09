@@ -4,12 +4,14 @@ pathfinding is a Python application for visualising the shortest path between st
 
 ## Implemented algorithms
 
-* Breadth First Search
+* Breadth-first Search
+* Dijkstra's Algorithm
 
 ## Requirements
 
 * pygame
 * tkinter
+* heapdict
 
 ## Installation
 ```bash
