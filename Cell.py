@@ -18,15 +18,12 @@ class Cell:
         cell = pygame.Rect(cell_width * self.column_ind, cell_width * self.row_ind, cell_width, cell_width)
         pygame.draw.rect(surface, color, cell, width=line_width)
 
-    def change_status(self):
-        self.is_active = False
-
     def add_unvisited_neighbors(self, grid):
         rows_number = len(grid)
         columns_number = len(grid[0])
-        direction_vector_row = [-1, 1, 0, 0, -1, -1, 1, 1]
-        direction_vector_column = [0, 0, 1, -1, -1, 1, 1, -1]
-        for i in range(8):
+        direction_vector_row = [-1, 1, 0, 0]
+        direction_vector_column = [0, 0, 1, -1]
+        for i in range(4):
             row = self.row_ind + direction_vector_row[i]
             column = self.column_ind + direction_vector_column[i]
             if row < 0 or column < 0:

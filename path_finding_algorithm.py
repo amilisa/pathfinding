@@ -1,7 +1,7 @@
 import pygame
 import heapdict
-
-from constants.sizes import CELL_SIZE
+import drawing_tools
+from constants.sizes import CELL_SIZE, ROWS_NUMBER, COLUMNS_NUMBER
 from constants.colors import *
 
 
@@ -15,15 +15,16 @@ def trace_path(root_node, goal_node):
     return path
 
 
-def visualise_steps(current_node, root_node, goal_node, nodes_list, grid_wrapper):
+def visualise_steps(current_node, root_node, goal_node, nodes_list, grid_wrapper, grid):
     if current_node is not root_node:
         current_node.draw_cell(grid_wrapper, CELL_SIZE, LIGHT_GREY)
 
     for node in nodes_list:
         if node is not goal_node:
             node.draw_cell(grid_wrapper, CELL_SIZE, LIGHT_YELLOW)
+
     pygame.time.delay(5)
-    pygame.display.update()
+    drawing_tools.draw_grid(grid_wrapper, grid, ROWS_NUMBER, COLUMNS_NUMBER, CELL_SIZE, GREY)
 
 
 def breadth_first_search(root_node, goal_node, grid, grid_wrapper):
@@ -37,7 +38,7 @@ def breadth_first_search(root_node, goal_node, grid, grid_wrapper):
 
         current_node.add_unvisited_neighbors(grid)
         neighbors_list = current_node.neighbors
-        visualise_steps(current_node, root_node, goal_node, neighbors_list, grid_wrapper)
+        visualise_steps(current_node, root_node, goal_node, neighbors_list, grid_wrapper, grid)
 
         for neighbor in neighbors_list:
             queue.append(neighbor)
@@ -62,7 +63,7 @@ def dijkstra(root_node, goal_node, grid, grid_wrapper):
 
         current_node.add_unvisited_neighbors(grid)
         neighbors_list = current_node.neighbors
-        visualise_steps(current_node, root_node, goal_node, neighbors_list, grid_wrapper)
+        visualise_steps(current_node, root_node, goal_node, neighbors_list, grid_wrapper, grid)
 
         for neighbor in neighbors_list:
             new_distance = current_node.distance + neighbor.cost

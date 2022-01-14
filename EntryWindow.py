@@ -1,16 +1,10 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import ttk
 
 
 class EntryWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.entry_start_point = None
-        self.entry_end_point = None
-        self.entry_start_row = 0
-        self.entry_start_column = 0
-        self.entry_end_row = 0
-        self.entry_end_column = 0
         self.combobox = ttk.Combobox(master=self, width=18, state='readonly')
         self.selected_algorithm = None
         self.configure_gui()
@@ -23,23 +17,12 @@ class EntryWindow(tk.Tk):
 
     def create_widgets(self):
         self.create_labels()
-        self.create_entry_widgets()
         self.configure_combobox()
         self.create_submit_button()
 
     def create_labels(self):
-        label_start_point = tk.Label(master=self, text="Start point (row,column):")
-        label_end_point = tk.Label(master=self, text="End point (row,column):")
         label_selection = tk.Label(master=self, text="Select an algorithm:")
-        label_start_point.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
-        label_end_point.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
         label_selection.grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
-
-    def create_entry_widgets(self):
-        self.entry_start_point = tk.Entry(master=self, width=18)
-        self.entry_end_point = tk.Entry(master=self, width=18)
-        self.entry_start_point.grid(row=0, column=1, padx=3, sticky=tk.W)
-        self.entry_end_point.grid(row=1, column=1, padx=3, sticky=tk.W)
 
     def configure_combobox(self):
         algorithms = ("Breadth-first Search", "Dijkstra's Algorithm")
@@ -62,13 +45,7 @@ class EntryWindow(tk.Tk):
 
     def submit(self):
         try:
-            self.entry_start_row, self.entry_start_column = [int(item) for item in self.entry_start_point.get().split(',')]
-            self.entry_end_row, self.entry_end_column = [int(item) for item in self.entry_end_point.get().split(',')]
             self.selected_algorithm = self.combobox.get()
             self.destroy()
         except ValueError:
             self.show_message()
-
-    @staticmethod
-    def show_message():
-        messagebox.showinfo("Path Finding", "Please enter the correct start and end values.")

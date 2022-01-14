@@ -1,6 +1,7 @@
 import os
 import pygame
-import misc
+from constants.sizes import CELL_SIZE, ROWS_NUMBER, COLUMNS_NUMBER
+from constants.colors import *
 
 
 def draw_instructions(surface, position_x, position_y, color):
@@ -25,17 +26,22 @@ def draw_grid(surface, grid, rows_number, columns_number, cell_size, color):
     pygame.display.update()
 
 
-def draw_obstacle(x, y, surface, grid, padding, cell_size, min_index, max_index, color):
-    i, j = misc.transform_to_index(y - padding, x - padding, cell_size)
-    if misc.is_index_valid(i, j, min_index, max_index) and not grid[i][j].is_path_point:
+def draw_path_point(i, j, surface, grid, cell_size, color):
+    grid[i][j].draw_cell(surface, cell_size, color)
+    pygame.display.update()
+    grid[i][j].is_path_point = True
+
+
+def draw_obstacle(i, j, surface, grid, cell_size, color):
+    if not grid[i][j].is_path_point:
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
-        grid[i][j].change_status()
+        grid[i][j].is_active = False
 
 
-def draw_path(path, surface, goal, cell_size, color):
+def draw_path(path, surface, goal, cell_size, color, grid):
     for cell in path:
         if cell is not goal:
             cell.draw_cell(surface, cell_size, color)
             pygame.time.delay(50)
-            pygame.display.update()
+            draw_grid(surface, grid, ROWS_NUMBER, COLUMNS_NUMBER, CELL_SIZE, GREY)
