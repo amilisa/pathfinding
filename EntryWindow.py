@@ -25,7 +25,7 @@ class EntryWindow(tk.Tk):
         label_selection.grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
 
     def configure_combobox(self):
-        algorithms = ("Breadth-first Search", "Dijkstra's Algorithm")
+        algorithms = ("Breadth-first Search", "Dijkstra's Algorithm","A star's Algorithm","Depth-first Search")
         self.combobox['values'] = algorithms
         self.combobox.current(0)
         self.combobox.grid(row=2, column=1, padx=3, sticky=tk.W)

@@ -12,7 +12,9 @@ class Cell:
         self.previous = None
         self.neighbors = []
         self.cost = 1
+        self.score = 0
         self.distance = math.inf
+        self.c_score = math.inf
 
     def draw_cell(self, surface, cell_width, color, line_width=0):
         cell = pygame.Rect(cell_width * self.column_ind, cell_width * self.row_ind, cell_width, cell_width)
