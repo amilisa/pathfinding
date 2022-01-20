@@ -7,11 +7,11 @@ from constants.colors import *
 def draw_instructions(surface, position_x, position_y, color):
     font = pygame.font.Font(os.path.join("font", "joystix monospace.ttf"), 12)
     obstacles_instruction = font.render("Click on the grid and drag the mouse to draw obstacles.", True, color)
-    start_instruction = font.render("Press C to chose the algorithim, press F to start the search.", True, color)
-    Other_instructions = font.render("Press 1,2,3 to add weights, press M to add a maze.", True, color)
+    start_instruction = font.render("Press C to choose the algorithm, press F to start the search.", True, color)
+    other_instructions = font.render("Press 1,2,3 to add weights, press M to add a maze.", True, color)
     surface.blit(obstacles_instruction, (position_x, position_y - 60))
     surface.blit(start_instruction, (position_x, position_y - 40))
-    surface.blit(Other_instructions, (position_x, position_y - 20))
+    surface.blit(other_instructions, (position_x, position_y - 20))
 
 
 def create_grid_wrapper(surface, position_x, position_y, width, height, color):
@@ -39,25 +39,28 @@ def draw_obstacle(i, j, surface, grid, cell_size, color):
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
         grid[i][j].is_active = False
-        
-        
+
+
 def draw_weight_1(i, j, surface, grid, cell_size, color):
     if not grid[i][j].is_path_point:
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
         grid[i][j].cost = 2
-        
+
+
 def draw_weight_2(i, j, surface, grid, cell_size, color):
     if not grid[i][j].is_path_point:
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
         grid[i][j].cost = 3
-        
+
+
 def draw_weight_3(i, j, surface, grid, cell_size, color):
     if not grid[i][j].is_path_point:
         grid[i][j].draw_cell(surface, cell_size, color)
         pygame.display.update()
         grid[i][j].cost = 5
+
 
 def draw_path(path, surface, goal, cell_size, color, grid):
     for cell in path:

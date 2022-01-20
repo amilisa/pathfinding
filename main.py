@@ -19,7 +19,7 @@ algorithms = {
     "Breadth-first Search": path_finding_algorithm.breadth_first_search,
     "Depth-first Search": path_finding_algorithm.depth_first_search,
     "Dijkstra's Algorithm": path_finding_algorithm.dijkstra,
-    "A star's Algorithm": path_finding_algorithm.A_star
+    "A-star Search": path_finding_algorithm.A_star
 }
 
 # def main function
@@ -59,7 +59,7 @@ def main():
                         maze_start = cell
                         start_point = None
                         end_point = None   
-                        Maze_algorithm.Prims_maze(maze_start,grid,grid_wrapper)
+                        Maze_algorithm.prims_maze(maze_start, grid, grid_wrapper)
                         grid[i][j].is_active = True 
                     elif not start_point and cell is not end_point:
                         start_point = cell
